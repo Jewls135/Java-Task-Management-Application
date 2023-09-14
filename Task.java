@@ -1,21 +1,29 @@
-public class Task{
+public class Task {
 
-    // Initializing variables
+    // Constants and other variables
+    private final String DEFAULT_TITLE = "Title is empty";
+    private final String DEFAULT_DUEDATE = "Date is empty";
+    private final String DEFAULT_DESCRIPTION = "Description is empty";
+
     private String title;
     private String description;
     private String dueDate;
-    private int priority;
     
-    // Constructor
-    public Task(String newTitle, String newDescription, String newDueDate, int newPriority) {
+    // Constructors
+
+    public Task(){
+        this.setTitle(DEFAULT_TITLE);
+        this.setDescription(DEFAULT_DESCRIPTION);
+        this.setDueDate(DEFAULT_DUEDATE);
+    }
+
+    public Task(String newTitle, String newDescription, String newDueDate) {
         this.setTitle(newTitle);
         this.setDescription(newDescription);
         this.setDueDate(newDueDate);
-        this.setPriority(newPriority);
     }
 
     // Getter and Setter methods below
-
     public String getTitle() {
         return this.title;
     }
@@ -27,7 +35,7 @@ public class Task{
     public String getDescription() {
         return this.description;
     }
-
+    
     public void setDescription(String newDescription) {
         this.description = newDescription;
     }
@@ -40,12 +48,29 @@ public class Task{
         this.dueDate = newDueDate;
     }
 
-    public int getPriority() {
-        return this.priority;
+    
+    public int compareTo(Task otherTask) {
+        String[] dueDate = this.getDueDate().split("/");
+        String[] otherDate = otherTask.getDueDate().split("/");
+        for(int i = 0; i < 3; i++) {
+            if(Integer.parseInt(dueDate[i]) == Integer.parseInt(otherDate[i]) ) {
+                continue;
+            }else if(Integer.parseInt(dueDate[i]) < Integer.parseInt(otherDate[i])) {
+                // If less return 1
+                return 1;
+            }else {
+                // If greater return -1
+                return -1;
+            }
+        }
+        // If equal return 0
+        return 0;
     }
 
-    public void setPriority(int newPriority) {
-        this.priority = newPriority;
+    @Override
+    public String toString(){
+        return("-" +  this.getTitle() + "- \n\nDue date - " + this.getDueDate() + "\n\nDescription- " + this.getDescription());
     }
-    
+
+
 } // End of class Task
