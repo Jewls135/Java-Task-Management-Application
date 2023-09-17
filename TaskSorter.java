@@ -28,8 +28,8 @@ public class TaskSorter {
      * 
      * @param tasks The <code>ArrayList</code> of <code>Task</code> objects to be
      *              sorted.
-     * @param low   The index of the lowest boundary.
-     * @param high  The index of the highest boundary.
+     * @param low   The lowest index of a <code>Task</code> object.
+     * @param high  The highest index of a <code>Task</code> object.
      */
     private void quicksort(ArrayList<Task> tasks, int low, int high) {
         if (low < high) {
