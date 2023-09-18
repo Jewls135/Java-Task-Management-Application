@@ -14,7 +14,7 @@ public class Task {
     private final String DEFAULT_TITLE = "Title is empty";
     private final String DEFAULT_DUEDATE = "Date is empty";
     private final String DEFAULT_DESCRIPTION = "Description is empty";
-    private final String COMMA_SPACE = ", ";
+    private final String SPACE = " ";
 
     // Variables
     private String title;
@@ -146,7 +146,7 @@ public class Task {
 
     @Override
     public String toString() { // String returned should look like DUEDATE, TITLE, DESCRIPTION
-        return (this.dueDate + COMMA_SPACE + this.title + COMMA_SPACE + this.description);
+        return (this.dueDate + SPACE + this.title + SPACE + this.description);
     } // End of method toString
 
 } // End of class Task

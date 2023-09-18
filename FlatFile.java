@@ -25,7 +25,37 @@ public class FlatFile {
     } // End of default constructor
 
     /**
-     * Method used to edit a <code>Task</code> object
+     * Method used to add a <code>task</code> to the <code>ArrayList</code> of
+     * <code>task</code> objects.
+     * 
+     * @param taskToAdd The <code>task</code> object to be added.
+     */
+    public void addTask(Task taskToAdd) {
+        tasks.add(taskToAdd);
+        taskSorter.quicksort(tasks);
+    } // End of method addTask
+
+    /**
+     * Method used to remove a <code>task</code> from the <code>ArrayList</code> of
+     * <code>Task</code> objects.
+     * 
+     * @param taskTitle The <code>title</code> of the <code>task</code> to be
+     *                  removed.
+     * @return True or False depending on if the content was found and removed.
+     */
+    public boolean removeTask(String taskTitle) {
+        for (int i = 0; i < tasks.size() - 1; i++) {
+            if (tasks.get(i).getTitle().equals(taskTitle)) {
+                tasks.remove(i);
+                taskSorter.quicksort(tasks);
+                return true;
+            } // End of if
+        } // End of for
+        return false;
+    } // End of method removeTask
+
+    /**
+     * Method used to edit a <code>Task</code> object.
      * 
      * @param taskToEdit The <code>Task</code> object to edit.
      * @param operation  The operation to edit with.
@@ -49,8 +79,8 @@ public class FlatFile {
     } // End of method editTask
 
     /**
-     * Method used to read the file and input new <code>Task</code> objects
-     * into the <code>Task</code> object <code>ArrayList</code> .
+     * Method used to read the file and input new <code>Task</code> objects.
+     * into the <code>Task</code> object <code>ArrayList</code>.
      * 
      * @param inFile The file to be read.
      */
