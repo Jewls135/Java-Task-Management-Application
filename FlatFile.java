@@ -11,6 +11,7 @@ import java.util.Scanner;
  */
 public class FlatFile {
 
+    public static final String System = null;
     // Variables
     private ArrayList<Task> tasks;
     private TaskSorter taskSorter;
@@ -25,15 +26,31 @@ public class FlatFile {
     } // End of default constructor
 
     /**
-     * Method used to add a <code>task</code> to the <code>ArrayList</code> of
+     * Method used to add a <code>Task</code> to the <code>ArrayList</code> of
      * <code>task</code> objects.
      * 
-     * @param taskToAdd The <code>task</code> object to be added.
+     * @param taskToAdd The <code>Task</code> object to be added.
      */
     public void addTask(Task taskToAdd) {
         tasks.add(taskToAdd);
         taskSorter.quicksort(tasks);
     } // End of method addTask
+
+    /**
+     * Method used to get a <code>Task</code> object given a <code>title</code>
+     * 
+     * @param taskTitle The <code>title</code> of <code>Task</code> object to be
+     *                  found.
+     * @return The <code>Task</code> object to be returned.
+     */
+    public Task getTask(String taskTitle) {
+        for (int i = 0; i < tasks.size(); i++) {
+            if (tasks.get(i).getTitle().equals(taskTitle)) {
+                return tasks.get(i);
+            } // End of if
+        } // End of for
+        return null;
+    } // End of method getTask
 
     /**
      * Method used to remove a <code>task</code> from the <code>ArrayList</code> of
@@ -44,7 +61,7 @@ public class FlatFile {
      * @return True or False depending on if the content was found and removed.
      */
     public boolean removeTask(String taskTitle) {
-        for (int i = 0; i < tasks.size() - 1; i++) {
+        for (int i = 0; i < tasks.size(); i++) {
             if (tasks.get(i).getTitle().equals(taskTitle)) {
                 tasks.remove(i);
                 taskSorter.quicksort(tasks);
