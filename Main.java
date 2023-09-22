@@ -4,18 +4,24 @@ import java.io.FileNotFoundException;
 import java.util.Scanner;
 
 /**
-* The Main class serves as the entry point for the Java Task Management Application.
-* This program allows users to create, edit, and remove tasks, each with a title, 
-* a due date, and a description. It provides a command-line interface for managing tasks
-* and stores task data in a file.
-*
-* NOTE: If the program stops abnormally data will be lost.
-*
-* @author Julian Ward
-* @version 1.00
-*
-*/
+ * The Main class serves as the entry point for the Java Task Management
+ * Application.
+ * This program allows users to create, edit, and remove tasks, each with a
+ * title,
+ * a due date, and a description. It provides a command-line interface for
+ * managing tasks
+ * and stores task data in a file.
+ *
+ * NOTE: If the program stops abnormally data will be lost.
+ *
+ * @author Julian Ward
+ * @version 1.1
+ *
+ */
 public class Main {
+
+	// Constants
+	private final static String DOTTED_LINE = "\n------------------------------------------------\n";
 
 	// Initializing variables
 	private static String fileName;
@@ -56,11 +62,13 @@ public class Main {
 		String tempDescription;
 		String tempDate;
 		Task tempTask;
+		int input;
 		quit = false;
 
-		System.out.println("Java Task Management Application\n");
+		System.out.println("\nJava Task Management Application\n");
 		System.out.println("	- This program allows you to create, edit, and remove tasks.");
 		System.out.println("	- Each task has a title, a due date, and a description.");
+		System.out.println("	- If program is exited prematurely, persistent data will be lost.");
 
 		while (!quit) {
 
@@ -72,66 +80,90 @@ public class Main {
 			System.out.println("	- 5. Exit\n");
 			System.out.print("Enter your choice: ");
 
-			switch (Integer.parseInt(keyboard.nextLine())) {
+			while (true) {
+				try {
+					input = Integer.parseInt(keyboard.nextLine());
+					break;
+				} catch (NumberFormatException NFE) {
+					System.out
+							.println(DOTTED_LINE + "\nInvalid input, please enter a whole number value\n" + DOTTED_LINE);
+					System.out.print("Enter your choice: ");
+				} // End of try-catch statement
+			} // End of while loop
+
+			switch (input) {
 				case 1:
-					System.out.println("\nPlease enter the title: ");
+					System.out.print("\nPlease enter the title: ");
 					tempTitle = keyboard.nextLine();
 
-					System.out.println("\nPlease enter the description: ");
+					System.out.print("\nPlease enter the description: ");
 					tempDescription = keyboard.nextLine();
 
-					System.out.println("\nPlease enter the due date, xxxx/xx/xx (Year/Month/Day): ");
+					System.out.print("\nPlease enter the due date, xxxx/xx/xx (Year/Month/Day): ");
 					tempDate = keyboard.nextLine();
 
 					tempTask = new Task(tempTitle, tempDescription, tempDate);
 
 					if (!tempDate.matches("^\\d{4}\\/\\d{2}\\/\\d{2}")) {
-						System.out.println("\nInvalid input for the date, please read requirements above.");
+						System.out.println(DOTTED_LINE
+								+ "\nInvalid input for the date, please read requirements above.\n" + DOTTED_LINE);
 					} else {
 						flatFile.addTask(tempTask);
+						System.out.println(DOTTED_LINE + "\nSuccessfully added task.\n" + DOTTED_LINE);
 					} // End of if
 					break;
 				case 2:
-					System.out.println("Please enter the Task's title you want to remove: ");
+					System.out.print("Please enter the Task's title you want to remove: ");
 
 					if (flatFile.removeTask(keyboard.nextLine())) {
-						System.out.println("\nSucessfully removed that task!");
+						System.out.println(DOTTED_LINE + "\nSucessfully removed that task.\n" + DOTTED_LINE);
 					} else {
-						System.out.println("\nError, please input a valid title (Case Sensitive)");
+						System.out.println(DOTTED_LINE
+								+ "\nInvalid input, please enter an existing title. (Case Sensitive) \n" + DOTTED_LINE);
 					} // End of if
 					break;
 				case 3:
-					System.out.println("Please enter the title of the task you wish to edit");
+					System.out.print("\nPlease enter the title of the task you wish to edit: ");
 					tempTitle = keyboard.nextLine();
 					tempTask = flatFile.getTask(tempTitle);
 
-					System.out.println("\nPlease enter what you would like to edit");
+					System.out.println("\nPlease enter what you would like to edit.");
 					System.out.println("	- 1. Title");
 					System.out.println("	- 2. Description");
 					System.out.println("	- 3. Due Date");
+					System.out.print("Enter your choice: ");
 
 					int tempOperation = Integer.parseInt(keyboard.nextLine()) - 1;
 
-					System.out.println("Please enter what you would like to change it to:");
+					System.out.println("\nPlease enter what you would like to change it to:");
 					System.out.println(
-							"For the due date please make sure to enter it according to the pattern below.\nxxxx/xx/xx (Year/Month/Day)");
+							"\n-- For the due date please make sure to enter it according to the pattern below --\nxxxx/xx/xx (Year/Month/Day)");
+					System.out.print("\nEnter your choice: ");
 					String tempData = keyboard.nextLine();
 
 					if (tempOperation == 2 && tempData.matches("^\\d{4}\\/\\d{2}\\/\\d{2}")) {
 						flatFile.editTask(tempTask, tempOperation, tempData);
+						System.out.println(DOTTED_LINE + "\nSuccessfully edited task.\n" + DOTTED_LINE);
 
 					} else if (tempOperation == 2) {
-						System.out.println("\nInvalid input for the date, please read requirements above.");
+						System.out.println(
+								DOTTED_LINE + "\nInvalid input for the date, please read requirements above. \n"
+										+ DOTTED_LINE);
 					} else {
 						flatFile.editTask(tempTask, tempOperation, tempData);
+						System.out.println(DOTTED_LINE + "\nSuccessfully edited task.\n" + DOTTED_LINE);
 					} // End of if
 
 					break;
 				case 4:
-					System.out.println(flatFile.toString());
+					System.out.println(DOTTED_LINE + "\nList of all Task below: \n\n" + flatFile.toString() + DOTTED_LINE);
 					break;
 				case 5:
+				System.out.println(DOTTED_LINE + "\nExiting CLI and saving data, do not exit prematurely.\n" + DOTTED_LINE);
 					quit = true;
+					break;
+				default:
+					System.out.println(DOTTED_LINE + "\nInvalid input, please enter a number 1 - 4. \n" + DOTTED_LINE);
 					break;
 			} // End of Switch(int)
 
