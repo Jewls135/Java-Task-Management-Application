@@ -32,7 +32,7 @@ public class Main {
 	private static boolean quit;
 
 	public static void main(String[] args) {
-		fileName = "src\\data.txt";
+		fileName = "src/data.txt";
 		flatFile = new FlatFile();
 
 		try { // Try-catch statement to catch the FileNotFoundException, if caught print error
@@ -43,14 +43,16 @@ public class Main {
 			runTaskManagementCLI(); // Runs the method for command line prompts
 			outFile.write(flatFile.toString()); // Writing the data to the file
 		} catch (FileNotFoundException exception) {
+			System.out.println(DOTTED_LINE);
 			System.out.println("ERROR opening file " + fileName);
 			System.out.println(exception.getMessage());
 			System.out.println("in " + System.getProperty("user.dir"));
-			System.out.flush();
+			System.out.println(DOTTED_LINE);
 			System.exit(1);
 		} // End of try-catch statement
 		outFile.close(); // Closing output stream no memory leaks here.
 		inFile.close(); // Closing input stream no memory leaks here.
+		System.out.println("Saved successfully. Thank you for checking out my project!");
 	} // End of method main
 
 	private static void runTaskManagementCLI() {
