@@ -53,14 +53,24 @@ public class Task {
      * @return This <code>Task</code> object.
      */
     public Task readTask(Scanner inFile) {
-        if (inFile.hasNext()) { // Default data from text file : dueDate, title, description (Comma space
-                                // delimiter)
-            this.setDueDate(inFile.next());
-            this.setTitle(inFile.next());
-            this.setDescription(inFile.next());
-        } // End of if
+        if (inFile.hasNextLine()) {
+            String line = inFile.nextLine();
+            String[] parts = line.split(", "); // Delimiter (", ") used to split each part of the task
+
+            if (parts.length >= 3) {
+                this.setDueDate(parts[0]);
+                this.setTitle(parts[1]);
+                this.setDescription(parts[2]);
+            } else {
+                throw new IllegalArgumentException("Invalid task format: " + line);
+            } // End of inner if
+
+        } else {
+            throw new NoSuchElementException("No more tasks in the file");
+        } // End of outer if
+
         return this;
-    } // End of method readTask
+    }
 
     // Getter and Setter methods below
 
